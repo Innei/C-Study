@@ -1,0 +1,5 @@
+{"version": "0.1.0",
+    "command": "clang",
+    "isShellCommand": true,
+    "args": ["-g","${file}","-o","${file}.exe"],
+    "showOutput": "always"}
