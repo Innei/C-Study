@@ -118,8 +118,9 @@ int my_atoi(char *line, size_t n)
 
 int main(int argc, char const *argv[])
 {
-    char input[10] = "20+3x=-18";
-    //char input[10] = "1x+1=2x";
+
+    //char input[10] ;
+    char input[10] = "1x+1=2";
     //scanf("%s", &input);
 
     //  short int siglter = 0;
@@ -129,8 +130,8 @@ int main(int argc, char const *argv[])
     int len = strlen(input);
     char *letter = &input;
     int allNum = 0;
-    int start_count = 0;
-    int end_count = -1;
+   int start_count = 0;
+   int end_count = -1;
     int x_totalNum;
     short x_Num = 0;
     double result = 0.0;
