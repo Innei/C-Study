@@ -15,6 +15,7 @@
         "__tuple": "c",
         "bitset": "c",
         "chrono": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "iostream": "cpp"
     }
 }
