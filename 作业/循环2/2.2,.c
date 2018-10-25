@@ -2,12 +2,13 @@
 
 int main(int argc, char const *argv[])
 {
-A:
-    double sum = 1;
-    double sig = 1;
-    int n = 0;
 
+    int n = 0;
+    double sum = 1;
+    double sig = 1.0;
+A:
     printf("enter a num : \n");
+
     scanf("%d", &n);
     if (n <= 0)
     {
@@ -16,9 +17,13 @@ A:
     }
     for (int i = 1; i <= n; i++)
     {
-        sig = i * sig;
+        sig = 1.0;
+        for (int k = 1; k <= i; k++)
+        {
+            sig = sig * k;
+        }
         sum = sum + 1.0 / sig;
     }
-    printf("%.4lf\n", sum);
+    printf("e = %.4lf\n", sum);
     return 0;
 }

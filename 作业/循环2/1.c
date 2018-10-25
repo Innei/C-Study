@@ -11,6 +11,6 @@ int main(int argc, char const *argv[])
             // printf("i = %d", i);
         }
     }
-    printf("sum = %d", sum);
+    printf("sum = %d\n", sum);
     return 0;
 }

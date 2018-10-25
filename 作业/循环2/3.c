@@ -3,14 +3,17 @@
 
 int main(int argc, char const *argv[])
 {
-    double x, eps, s = 0, t = 0;
+    double x, eps, s = 0, t = 1, i = 0.0;
     printf("Enter x,eps(eps>0): \n");
     scanf("%lf%lf", &x, &eps);
-    for (int i = 0; fabs(t) >= eps; i++)
+
+    while (fabs(t) >= eps)
     {
         s += t;
+        i++;
         t = -t * x / i;
     }
-    printf("%lf\n",s);
+
+    printf("%lf\n", s);
     return 0;
 }
