@@ -1,10 +1,10 @@
 
-#include<iostream>
-#include<cmath>
+#include <iostream>
+#include <cmath>
 using namespace std;
 
-#define  WIDTH   1.5
-#define  HEIGHT  1.5
+#define WIDTH 1.5
+#define HEIGHT 1.5
 
 int main(int argc, char **argv)
 {
@@ -12,18 +12,17 @@ int main(int argc, char **argv)
     {
         for (float x = -WIDTH; x <= WIDTH; x += 0.025)
         {
-            if (x*x + pow(5.0*y/4.0 - sqrt(fabs(x)), 2) - 1 <= 0.0)
+            if (x * x + pow(5.0 * y / 4.0 - sqrt(fabs(x)), 2) - 1 <= 0.0)
             {
-                cout<<" ";
+                cout << " ";
             }
             else
             {
-                cout<<"*";
+                cout << "*";
             }
         }
-        cout<<endl;
+        cout << endl;
     }
 
     return 0;
 }
-

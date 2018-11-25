@@ -1,8 +1,10 @@
 #include <stdio.h>
-
-int main(int argc, char const *argv[])
+int main(int argc, const char * argv[])
 {
-    int i = 1;
-    printf("%d %d %d %d %d ", i, i++, ++i, i, i = i + 1);
-    return 0;
+unsigned char a[4] = {230, 136, 145};
+unsigned char b[4] = {231, 136, 177};
+unsigned char c[4] = {228, 189, 160};
+printf("%s%s%s", a, b, c);
+getchar();
+return 0;
 }
