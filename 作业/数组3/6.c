@@ -1,19 +1,23 @@
 #include <stdio.h>
-#include <ctype.h>
-#include <string.h>
 int main(int argc, char const *argv[])
 {
-    static char a[80];
-    scanf("%s",a);
-    int len = strlen(a);
-    for(int i = 0; i < len; i++)
-    {
-        
-        if (is) {
-            /* code */
+    char c;
+    int i = 0, a[100] = {0};
+    while ((c = getchar()) != '\n')
+
+        for (i = 65; i <= 90; i++)
+        {
+
+            if (c == i || c == i + 32)
+            {
+                a[i]++;
+            }
         }
-        
+
+    for (i = 65; i <= 90; i++)
+    {
+        printf("%c:%d\n", i, a[i]);
     }
-    
+
     return 0;
 }
