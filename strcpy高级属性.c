@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     puts(orig);
     puts(copy);
     ps = strcpy(copy + 7, orig);
-
+    printf("%s\n", copy);
     puts(copy);
     puts(ps);
     return 0;
