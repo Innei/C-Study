@@ -18,7 +18,7 @@ struct Node *CreateList(void)
     if (NULL == pHead)
     {
         printf("分配失败,程序终止\n");
-        exit(1);
+        exit(1); 
     }
     struct Node *pTail = pHead;
     pTail->pNext = NULL;

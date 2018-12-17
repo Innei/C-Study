@@ -8,6 +8,7 @@ typedef struct Node
     int date;
     struct Node *next;
 } Node, *LinkList;
+
 LinkList createlist(int n)
 {
     int i;
