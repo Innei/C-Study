@@ -5,7 +5,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/${fileBasenameNoExtension}.out",
+            "program": "${workspaceRoot}/Debug/${fileBasenameNoExtension}.out ",
             "args": [],
             "stopAtEntry": false,
             "preLaunchTask": "build",

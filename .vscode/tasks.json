@@ -6,8 +6,8 @@
             "command": "clang++",
             "type": "shell",
             "args": [
-                "-g","-o","${fileBasenameNoExtension}.out","${file}",
-                "-std=c++11",
+                "-g","-o","Debug/${fileBasenameNoExtension}.out","${file}",
+                "-std=c++11 ",
                 
             ],
             "presentation": {

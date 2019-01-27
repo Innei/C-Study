@@ -54,14 +54,14 @@ start:
     printf("3.删除元素\n");
     printf("4.倒置数组\n");
     printf("5.排序数组\n");
-    scanf_s("%d", &n);
+    scanf("%d", &n);
     putchar('\n');
     switch (n)
     {
     case 1:
     A:
         printf("数组长度为:");
-        scanf_s("%d", &i);
+        scanf("%d", &i);
         init_arr(arr, i);
 
         if (NULL != arr->pBase)
@@ -70,7 +70,7 @@ start:
             int val;
             for (int j = 0; j < i; j++)
             {
-                scanf_s("%d", &val);
+                scanf("%d", &val);
                 append_arr(arr, val);
             }
             show_arr(arr);
@@ -94,7 +94,7 @@ start:
         {
             printf("输入位置和插入的值\n");
             int val, pos;
-            scanf_s("%d %d", &pos, &val);
+            scanf("%d %d", &pos, &val);
             insert_arr(arr, pos, val);
             show_arr(arr);
             goto start;
@@ -111,7 +111,7 @@ start:
         {
             printf("输入位置\n");
             int pos;
-            scanf_s("%d", &pos);
+            scanf("%d", &pos);
             del_arr(arr, pos);
             show_arr(arr);
             goto start;
