@@ -1,33 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 struct student
 {
-    int id, birth;
-    char name[10], phone[12];
+    int id;
+    struct bir
+    {
+        int year;
+        int month;
+        int day;
+    } birth;
+
+    char name[10], phone[15];
     char sex;
 };
 
 int count = 0;
+struct student *init_record();
 void insert_record(struct student stu[]);
 void prt(struct student stu[]);
 void myprint();
 void search_record(struct student stu[]);
-int main(int argc, char const *argv[])
+int main()
 {
     struct student *stu;
-    stu = (struct student *)malloc(sizeof(struct student) * 1);
+    stu = (struct student *)malloc(sizeof(struct student) * 10);
     if (NULL == stu)
     {
         printf("error");
         exit(1);
     }
-    insert_record(stu);
-    insert_record(stu);
-    printf("%s", (stu + count)->name);
+    stu = init_record();
+    // insert_record(stu);
+    // insert_record(stu);
+    // printf("%s", (stu + count)->name);
+    // prt(stu);
+    // while (1)
+    //     search_record(stu);
     prt(stu);
-    while(1)
-    search_record(stu);
     return 0;
 }
 
@@ -50,7 +60,7 @@ void prt(struct student *stu)
 {
     for (int i = 0; i < count; i++)
     {
-        printf("第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth, (stu + i)->phone);
+        printf("第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
     }
 }
 void insert_record(struct student *stu)
@@ -58,88 +68,168 @@ void insert_record(struct student *stu)
     printf("学号: ");
     scanf("%d", &(stu + count)->id);
     printf("姓名: ");
-    scanf("%s", &(stu + count)->name);
+    scanf("%s", (stu + count)->name);
 sex:
     printf("性别: ");
     getchar();
     scanf("%c", &(stu + count)->sex);
-    if ((stu + count)->sex != 'F' && (stu+count)->sex != 'M')
+    if ((stu + count)->sex != 'F' && (stu + count)->sex != 'M')
     {
         printf("输入有误\n");
         goto sex;
     }
     printf("生日: ");
-    scanf("%s", &(stu + count)->birth);
+    scanf("%d", &(stu + count)->birth.year);
+    scanf("%d", &(stu + count)->birth.month);
+    scanf("%d", &(stu + count)->birth.day);
     printf("手机: ");
-    scanf("%s", &(stu + count)->phone);
+    scanf("%s", (stu + count)->phone);
     count++;
+
+    FILE *fp = fopen("record.txt", "a+");
+    if (fp != NULL)
+    {
+        fprintf(fp, " %d ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;\n", stu->id, stu->name, stu->sex, stu->birth.year, stu->birth.month, stu->birth.day, stu->phone);
+    }
+    else
+    {
+        printf("写文件失败!\n");
+    }
+    fclose(fp);
 }
 
 void search_record(struct student *stu)
 {
     int s = 0;
+    int birth;
+    int b = 0;
+    char name[10];
+    char sex = ' ';
+    char phone[15];
+    getchar();
     printf("1）学号查找、2）姓名查找、3）手机查找、4）性别查找、5）生日范围查找\n");
     scanf("%d", &s);
+    getchar();
     switch (s)
     {
     case 1:
-        int b;
+
         scanf("%d", &b);
         for (int i = 0; i < count; i++)
         {
             if ((stu + i)->id == b)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
             }
         }
         break;
     case 2:
-        char *name = NULL;
+
         scanf("%s", name);
         for (int i = 0; i < count; i++)
         {
-            if ((stu + i)->name == name)
+            if (strcmp((stu + i)->name, name) == 0)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
             }
         }
         break;
     case 3:
-        char *phone = NULL;
+
         scanf("%s", phone);
         for (int i = 0; i < count; i++)
         {
-            if ((stu + i)->phone == phone)
+            if (strcmp((stu + i)->phone, phone) == 0)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
             }
         }
         break;
     case 4:
-        char sex;
-        scanf("%c", &sex);
+
+        sex = getchar();
         for (int i = 0; i < count; i++)
         {
             if ((stu + i)->sex == sex)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
             }
         }
         break;
 
     case 5:
-        int birth;
+
         scanf("%d", &birth);
         for (int i = 0; i < count; i++)
         {
-            if ((stu + i)->birth == birth)
+            if ((stu + i)->birth.year == birth || (stu + i)->birth.month == birth || (stu + i)->birth.day == birth)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
             }
         }
         break;
     default:
-        printf("输入错误");
+        printf("输入错误\n");
         break;
     }
+}
+unsigned long ToUInt(char *str)
+{
+    unsigned long mult = 1;
+    unsigned long re = 0;
+    int len = strlen(str);
+    for (int i = len - 1; i >= 0; i--)
+    {
+        re = re + ((int)str[i] - 48) * mult;
+        mult = mult * 10;
+    }
+    return re;
+}
+struct student *init_record()
+{
+    struct student *p = (struct student *)malloc(sizeof(struct student));
+    FILE *fp = fopen("record.txt", "r");
+    if (fp == NULL)
+    {
+        fp = fopen("record.txt", "a+");
+        fprintf(fp, "ID  NAME  SEX  BIRTH  PHONE \n");
+        return p;
+    }
+    else
+    {
+        char s[100];
+        while (!feof(fp)) //循环读取每一行，直到文件尾
+        {
+            fgets(s, 100, fp); //将fp所指向的文件一行内容读到strLine缓冲区
+            // printf("%s", s);   //输出所读到的内容
+            // 分割字符串
+
+            char *pch;
+            pch = strtok(s, " ;");
+            (p + count)->id = ToUInt(pch);
+            pch = strtok(NULL, " ;");
+            strcpy((p + count)->name, pch);
+            pch = strtok(NULL, " ;");
+            (p + count)->sex = pch[0];
+            pch = strtok(NULL, " ;");
+            // birth
+            (p + count)->birth.year = ToUInt(pch);
+            pch = strtok(NULL, " ;");
+            (p + count)->birth.month = ToUInt(pch);
+            pch = strtok(NULL, " ;");
+            (p + count)->birth.day = ToUInt(pch);
+            pch = strtok(NULL, " ;");
+
+            strcpy((p + count)->phone, pch);
+            pch = strtok(NULL, " ;");
+            count++;
+            // while (pch != NULL)
+            // {
+            //     printf("%s\n", pch);
+            //     pch = strtok(NULL, " ;");
+            // }
+        }
+        fclose(fp);
+    }
+    return p;
 }
