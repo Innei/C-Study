@@ -1,3 +1,8 @@
+/**
+ * @repos: Simple-telenote
+ * @author: yiny
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,7 +25,8 @@ struct student *init_record();
 void insert_record(struct student stu[]);
 void prt(struct student stu[]);
 void myprint();
-void search_record(struct student stu[]);
+int *search_record(struct student stu[]);
+void del_record(struct student *stu);
 int main()
 {
     struct student *stu;
@@ -98,8 +104,11 @@ sex:
     fclose(fp);
 }
 
-void search_record(struct student *stu)
+int *search_record(struct student *stu)
 {
+    int *num = NULL;
+    int numC = 0; // 数组计数
+    num = (int *)malloc(sizeof(int) * 10);
     int s = 0;
     int birth;
     int b = 0;
@@ -120,6 +129,8 @@ void search_record(struct student *stu)
             if ((stu + i)->id == b)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                num[numC] = i + 1;
+                numC++;
             }
         }
         break;
@@ -131,6 +142,8 @@ void search_record(struct student *stu)
             if (strcmp((stu + i)->name, name) == 0)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                num[numC] = i + 1;
+                numC++;
             }
         }
         break;
@@ -142,6 +155,8 @@ void search_record(struct student *stu)
             if (strcmp((stu + i)->phone, phone) == 0)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                num[numC] = i + 1;
+                numC++;
             }
         }
         break;
@@ -153,6 +168,8 @@ void search_record(struct student *stu)
             if ((stu + i)->sex == sex)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                num[numC] = i + 1;
+                numC++;
             }
         }
         break;
@@ -165,6 +182,8 @@ void search_record(struct student *stu)
             if ((stu + i)->birth.year == birth || (stu + i)->birth.month == birth || (stu + i)->birth.day == birth)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                num[numC] = i + 1;
+                numC++;
             }
         }
         break;
@@ -172,6 +191,7 @@ void search_record(struct student *stu)
         printf("输入错误\n");
         break;
     }
+    return num;
 }
 unsigned long ToUInt(char *str)
 {
@@ -232,4 +252,19 @@ struct student *init_record()
         fclose(fp);
     }
     return p;
+}
+
+void del_record(struct student *stu)
+{
+    int n = 0;
+    printf("删除记录首先要搜索记录, 然后选择你要删除的记录:\n");
+    int *num = search_record(stu);
+A:
+    printf("你要删除结果中的哪一项: ");
+    scanf("%d", &n);
+    if (sizeof(num) / sizeof(int) > n)
+    {
+        printf("输入有误!\n");
+        goto A;
+    }
 }
