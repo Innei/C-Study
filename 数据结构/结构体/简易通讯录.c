@@ -1,5 +1,5 @@
 /**
- * @repos: Simple-telenote
+ * @repos: Simple-Telenote
  * @author: yiny
  */
 
@@ -8,13 +8,43 @@
 int main()
 {
     struct student *stu;
-    stu = (struct student *)malloc(sizeof(struct student) * 10);
+    stu = init_record();
     if (NULL == stu)
     {
-        printf("error");
+        printf("分配失败\n");
         exit(1);
     }
-    stu = init_record();
+    while (1)
+    {
+        int n = 0;
+        myprint();
+        scanf("%d", &n);
+        switch (n)
+        {
+        case 1:
+            init_record(stu);
+            break;
+        case 2:
+            prt(stu);
+            break;
+
+        case 3:
+            search_record(stu);
+            break;
+        case 4:
+            del_record(stu);
+            break;
+        case 5:
+            sort_record(stu);
+            break;
+        case 0:
+            exit(0);
+
+        default:
+            printf("输入有误!\n");
+            break;
+        }
+    }
     // insert_record(stu);
     // insert_record(stu);
     // printf("%s", (stu + count)->name);
@@ -31,15 +61,16 @@ void myprint()
 {
     system("cls");
     printf("      |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
-    printf("      |    请输入选项编号（0-7）:      |\n");
+    printf("      |    请输入选项编号（0-5）:      |\n");
     printf("      |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
-    printf("      |          1:输入（追加）       |\n");
-    printf("      |          2:显示（打印）       |\n");
-    printf("      |          3:插入             |\n");
+    printf("      |          1:输入（追加）      |\n");
+    printf("      |          2:显示（打印）      |\n");
+    printf("      |          3:查找             |\n");
     printf("      |          4:删除             |\n");
     printf("      |          5:排序             |\n");
     printf("      |          0:退出             |\n");
     printf("       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf(" 请输入: ");
 }
 
 void prt(struct student *stu)
@@ -105,7 +136,7 @@ int *search_record(struct student *stu)
     switch (s)
     {
     case 1:
-
+        printf("输入学号:\n");
         scanf("%d", &b);
         for (int i = 0; i < count; i++)
         {
@@ -118,7 +149,7 @@ int *search_record(struct student *stu)
         }
         break;
     case 2:
-
+        printf("输入姓名:\n");
         scanf("%s", name);
         for (int i = 0; i < count; i++)
         {
@@ -131,7 +162,7 @@ int *search_record(struct student *stu)
         }
         break;
     case 3:
-
+        printf("输入手机:\n");
         scanf("%s", phone);
         for (int i = 0; i < count; i++)
         {
@@ -144,7 +175,7 @@ int *search_record(struct student *stu)
         }
         break;
     case 4:
-
+        printf("输入性别:\n");
         sex = getchar();
         for (int i = 0; i < count; i++)
         {
@@ -158,7 +189,7 @@ int *search_record(struct student *stu)
         break;
 
     case 5:
-
+        printf("输入生日(年或月或日):\n");
         scanf("%d", &birth);
         for (int i = 0; i < count; i++)
         {
@@ -174,6 +205,11 @@ int *search_record(struct student *stu)
         printf("输入错误\n");
         break;
     }
+    if (numC == 0)
+    {
+        printf("无结果\n");
+    }
+
     return num;
 }
 
@@ -242,7 +278,6 @@ A:
     }
     else
     {
-        // FILE *fp = fopen("record.txt", "w+");
         DeleteLine("record.txt", num[n - 1]);
         (stu + num[n - 1] - 1)->birth.day = (stu + count - 1)->birth.day;
         (stu + num[n - 1] - 1)->birth.month = (stu + count - 1)->birth.month;
@@ -257,15 +292,15 @@ A:
 
 void sort_record(struct student *stu)
 {
-    printf("1）学号排序、2）姓名排序、3）性别排序、4）手机排序、5）生日排序\n");
+a:    printf("1）学号排序、2）姓名排序、3）性别排序、4）手机排序、5）生日排序\n");
     int n = 1, t = 0;
     char st[30] = "";
-    // scanf("%d", &n); // todo
-
+    scanf("%d", &n); // todo
+    
     int *id = (int *)malloc(sizeof(int) * count);
     char *name[count], *phone[count];
     char *sex = (char *)malloc(sizeof(int) * (count + 1));
-
+    int *birth_year = (int *)malloc(sizeof(int) * count);
     for (int i = 0; i < count; i++)
     {
         id[i] = (stu + i)->id;
@@ -274,6 +309,7 @@ void sort_record(struct student *stu)
         phone[i] = (char *)malloc(sizeof(char) * strlen((stu + i)->phone));
         phone[i] = (stu + i)->phone;
         sex[i] = (stu + i)->sex;
+        birth_year[i] = (stu + i)->birth.year;
     }
 
     switch (n)
@@ -431,8 +467,47 @@ void sort_record(struct student *stu)
             }
         }
         break;
+    case 5:
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = i + 1; j < count; j++)
+            {
+                if (birth_year[i] > birth_year[j])
+                {
+                    t = (stu + i)->id;
+                    (stu + i)->id = (stu + j)->id;
+                    (stu + j)->id = t;
 
+                    t = (stu + i)->sex;
+                    (stu + i)->sex = (stu + j)->sex;
+                    (stu + j)->sex = t;
+
+                    strcpy(st, (stu + i)->name);
+                    strcpy((stu + i)->name, (stu + j)->name);
+                    strcpy((stu + j)->name, st);
+
+                    strcpy(st, (stu + i)->phone);
+                    strcpy((stu + i)->phone, (stu + j)->phone);
+                    strcpy((stu + j)->phone, st);
+
+                    t = (stu + i)->birth.day;
+                    (stu + i)->birth.day = (stu + j)->birth.day;
+                    (stu + j)->birth.day = t;
+
+                    t = (stu + i)->birth.month;
+                    (stu + i)->birth.month = (stu + j)->birth.month;
+                    (stu + j)->birth.month = t;
+
+                    t = (stu + i)->birth.year;
+                    (stu + i)->birth.year = (stu + j)->birth.year;
+                    (stu + j)->birth.year = t;
+                }
+            }
+        }
+        break;
     default:
+        printf("输入错误\n");
         break;
     }
+    prt(stu);
 }
