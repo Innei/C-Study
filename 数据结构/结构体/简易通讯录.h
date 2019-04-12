@@ -2,6 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+struct student
+{
+    int id;
+    struct bir
+    {
+        int year;
+        int month;
+        int day;
+    } birth;
+
+    char name[10], phone[15];
+    char sex;
+};
+int count = 0;
+struct student *init_record();
+void insert_record(struct student stu[]);
+void prt(struct student stu[]);
+void myprint();
+int *search_record(struct student stu[]);
+void del_record(struct student *stu);
+void sort_record(struct student *stu);
 unsigned long ToUInt(char *str)
 {
     unsigned long mult = 1;
@@ -58,4 +80,43 @@ void DeleteLine(char* filepath, int n)
 	//
 	remove("temp.txt");
 	//system("rm temp.txt");   //删除文件temp.txt,使用该命令需要包含<stdlib.h>文件
+}
+
+//获得未排序数组中最大的一个元素值
+int GetMaxVal(int* arr, int len)
+{
+    
+    int maxVal = arr[0]; //假设最大为arr[0]
+    
+    for(int i = 1; i < len; i++)  //遍历比较，找到大的就赋值给maxVal
+    {
+        if(arr[i] > maxVal)
+            maxVal = arr[i];
+    }
+    
+    return maxVal;  //返回最大值
+}
+ 
+//桶排序   参数：数组及其长度
+void BucketSort(int* arr , int len)
+{
+    int tmpArrLen = GetMaxVal(arr , len) + 1;
+    int tmpArr[tmpArrLen];  //获得空桶大小
+    int i, j;
+    
+    for( i = 0; i < tmpArrLen; i++)  //空桶初始化
+        tmpArr[i] = 0;
+    
+    for(i = 0; i < len; i++)   //寻访序列，并且把项目一个一个放到对应的桶子去。
+        tmpArr[ arr[i] ]++;
+    
+    for(i = 0, j = 0; i < tmpArrLen; i ++)
+    {
+        while( tmpArr[ i ] != 0) //对每个不是空的桶子进行排序。
+        {
+            arr[j ] = i;  //从不是空的桶子里把项目再放回原来的序列中。
+            j++;
+            tmpArr[i]--;
+        }
+    }
 }

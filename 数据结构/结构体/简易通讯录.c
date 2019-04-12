@@ -4,27 +4,7 @@
  */
 
 #include "简易通讯录.h"
-struct student
-{
-    int id;
-    struct bir
-    {
-        int year;
-        int month;
-        int day;
-    } birth;
 
-    char name[10], phone[15];
-    char sex;
-};
-
-int count = 0;
-struct student *init_record();
-void insert_record(struct student stu[]);
-void prt(struct student stu[]);
-void myprint();
-int *search_record(struct student stu[]);
-void del_record(struct student *stu);
 int main()
 {
     struct student *stu;
@@ -41,7 +21,8 @@ int main()
     // prt(stu);
     // while (1)
     //     search_record(stu);
-    del_record(stu);
+    // del_record(stu);
+    sort_record(stu);
     prt(stu);
     return 0;
 }
@@ -84,8 +65,11 @@ sex:
         goto sex;
     }
     printf("生日: ");
+    printf("年: ");
     scanf("%d", &(stu + count)->birth.year);
+    printf("月: ");
     scanf("%d", &(stu + count)->birth.month);
+    printf("日: ");
     scanf("%d", &(stu + count)->birth.day);
     printf("手机: ");
     scanf("%s", (stu + count)->phone);
@@ -197,12 +181,13 @@ struct student *init_record()
 {
     struct student *p = (struct student *)malloc(sizeof(struct student) * 10);
     FILE *fp = fopen("record.txt", "r");
-    if (fp == NULL)
+    if (fp == NULL || getc(fp) == EOF)
     {
-        fp = fopen("record.txt", "a+");
-        fprintf(fp, "ID  NAME  SEX  BIRTH  PHONE \n");
+        // fp = fopen("record.txt", "a+");
+        // fprintf(fp, "ID  NAME  SEX  BIRTH  PHONE \n");
         return p;
     }
+
     else
     {
         char s[100];
@@ -267,5 +252,187 @@ A:
         strcpy((stu + num[n - 1] - 1)->name, (stu + count - 1)->name);
         strcpy((stu + num[n - 1] - 1)->phone, (stu + count - 1)->phone);
         count--;
+    }
+}
+
+void sort_record(struct student *stu)
+{
+    printf("1）学号排序、2）姓名排序、3）性别排序、4）手机排序、5）生日排序\n");
+    int n = 1, t = 0;
+    char st[30] = "";
+    // scanf("%d", &n); // todo
+
+    int *id = (int *)malloc(sizeof(int) * count);
+    char *name[count], *phone[count];
+    char *sex = (char *)malloc(sizeof(int) * (count + 1));
+
+    for (int i = 0; i < count; i++)
+    {
+        id[i] = (stu + i)->id;
+        name[i] = (char *)malloc(sizeof(char) * strlen((stu + i)->name));
+        name[i] = (stu + i)->name;
+        phone[i] = (char *)malloc(sizeof(char) * strlen((stu + i)->phone));
+        phone[i] = (stu + i)->phone;
+        sex[i] = (stu + i)->sex;
+    }
+
+    switch (n)
+    {
+    case 1:
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = i + 1; j < count; j++)
+            {
+                if (id[i] > id[j])
+                {
+                    t = (stu + i)->id;
+                    (stu + i)->id = (stu + j)->id;
+                    (stu + j)->id = t;
+
+                    t = (stu + i)->sex;
+                    (stu + i)->sex = (stu + j)->sex;
+                    (stu + j)->sex = t;
+
+                    strcpy(st, (stu + i)->name);
+                    strcpy((stu + i)->name, (stu + j)->name);
+                    strcpy((stu + j)->name, st);
+
+                    strcpy(st, (stu + i)->phone);
+                    strcpy((stu + i)->phone, (stu + j)->phone);
+                    strcpy((stu + j)->phone, st);
+
+                    t = (stu + i)->birth.day;
+                    (stu + i)->birth.day = (stu + j)->birth.day;
+                    (stu + j)->birth.day = t;
+
+                    t = (stu + i)->birth.month;
+                    (stu + i)->birth.month = (stu + j)->birth.month;
+                    (stu + j)->birth.month = t;
+
+                    t = (stu + i)->birth.year;
+                    (stu + i)->birth.year = (stu + j)->birth.year;
+                    (stu + j)->birth.year = t;
+                }
+            }
+        }
+
+        break;
+    case 2:
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = i + 1; j < count; j++)
+            {
+                if (strcmp(name[i], name[j]) > 0)
+                {
+                    t = (stu + i)->id;
+                    (stu + i)->id = (stu + j)->id;
+                    (stu + j)->id = t;
+
+                    t = (stu + i)->sex;
+                    (stu + i)->sex = (stu + j)->sex;
+                    (stu + j)->sex = t;
+
+                    strcpy(st, (stu + i)->name);
+                    strcpy((stu + i)->name, (stu + j)->name);
+                    strcpy((stu + j)->name, st);
+
+                    strcpy(st, (stu + i)->phone);
+                    strcpy((stu + i)->phone, (stu + j)->phone);
+                    strcpy((stu + j)->phone, st);
+
+                    t = (stu + i)->birth.day;
+                    (stu + i)->birth.day = (stu + j)->birth.day;
+                    (stu + j)->birth.day = t;
+
+                    t = (stu + i)->birth.month;
+                    (stu + i)->birth.month = (stu + j)->birth.month;
+                    (stu + j)->birth.month = t;
+
+                    t = (stu + i)->birth.year;
+                    (stu + i)->birth.year = (stu + j)->birth.year;
+                    (stu + j)->birth.year = t;
+                }
+            }
+        }
+        break;
+    case 3:
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = i + 1; j < count; j++)
+            {
+                if (strcmp(phone[i], phone[j]) > 0)
+                {
+                    t = (stu + i)->id;
+                    (stu + i)->id = (stu + j)->id;
+                    (stu + j)->id = t;
+
+                    t = (stu + i)->sex;
+                    (stu + i)->sex = (stu + j)->sex;
+                    (stu + j)->sex = t;
+
+                    strcpy(st, (stu + i)->name);
+                    strcpy((stu + i)->name, (stu + j)->name);
+                    strcpy((stu + j)->name, st);
+
+                    strcpy(st, (stu + i)->phone);
+                    strcpy((stu + i)->phone, (stu + j)->phone);
+                    strcpy((stu + j)->phone, st);
+
+                    t = (stu + i)->birth.day;
+                    (stu + i)->birth.day = (stu + j)->birth.day;
+                    (stu + j)->birth.day = t;
+
+                    t = (stu + i)->birth.month;
+                    (stu + i)->birth.month = (stu + j)->birth.month;
+                    (stu + j)->birth.month = t;
+
+                    t = (stu + i)->birth.year;
+                    (stu + i)->birth.year = (stu + j)->birth.year;
+                    (stu + j)->birth.year = t;
+                }
+            }
+        }
+        break;
+    case 4:
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = i + 1; j < count; j++)
+            {
+                if (sex[i] > sex[j])
+                {
+                    t = (stu + i)->id;
+                    (stu + i)->id = (stu + j)->id;
+                    (stu + j)->id = t;
+
+                    t = (stu + i)->sex;
+                    (stu + i)->sex = (stu + j)->sex;
+                    (stu + j)->sex = t;
+
+                    strcpy(st, (stu + i)->name);
+                    strcpy((stu + i)->name, (stu + j)->name);
+                    strcpy((stu + j)->name, st);
+
+                    strcpy(st, (stu + i)->phone);
+                    strcpy((stu + i)->phone, (stu + j)->phone);
+                    strcpy((stu + j)->phone, st);
+
+                    t = (stu + i)->birth.day;
+                    (stu + i)->birth.day = (stu + j)->birth.day;
+                    (stu + j)->birth.day = t;
+
+                    t = (stu + i)->birth.month;
+                    (stu + i)->birth.month = (stu + j)->birth.month;
+                    (stu + j)->birth.month = t;
+
+                    t = (stu + i)->birth.year;
+                    (stu + i)->birth.year = (stu + j)->birth.year;
+                    (stu + j)->birth.year = t;
+                }
+            }
+        }
+        break;
+
+    default:
+        break;
     }
 }
