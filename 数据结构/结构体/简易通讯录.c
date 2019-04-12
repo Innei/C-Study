@@ -3,9 +3,7 @@
  * @author: yiny
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "简易通讯录.h"
 struct student
 {
     int id;
@@ -43,6 +41,7 @@ int main()
     // prt(stu);
     // while (1)
     //     search_record(stu);
+    del_record(stu);
     prt(stu);
     return 0;
 }
@@ -193,21 +192,10 @@ int *search_record(struct student *stu)
     }
     return num;
 }
-unsigned long ToUInt(char *str)
-{
-    unsigned long mult = 1;
-    unsigned long re = 0;
-    int len = strlen(str);
-    for (int i = len - 1; i >= 0; i--)
-    {
-        re = re + ((int)str[i] - 48) * mult;
-        mult = mult * 10;
-    }
-    return re;
-}
+
 struct student *init_record()
 {
-    struct student *p = (struct student *)malloc(sizeof(struct student));
+    struct student *p = (struct student *)malloc(sizeof(struct student) * 10);
     FILE *fp = fopen("record.txt", "r");
     if (fp == NULL)
     {
@@ -262,9 +250,22 @@ void del_record(struct student *stu)
 A:
     printf("你要删除结果中的哪一项: ");
     scanf("%d", &n);
-    if (sizeof(num) / sizeof(int) > n)
+    if (sizeof(num) / sizeof(int) < n)
     {
         printf("输入有误!\n");
         goto A;
+    }
+    else
+    {
+        // FILE *fp = fopen("record.txt", "w+");
+        DeleteLine("record.txt", num[n - 1]);
+        (stu + num[n - 1] - 1)->birth.day = (stu + count - 1)->birth.day;
+        (stu + num[n - 1] - 1)->birth.month = (stu + count - 1)->birth.month;
+        (stu + num[n - 1] - 1)->birth.year = (stu + count - 1)->birth.year;
+        (stu + num[n - 1] - 1)->id = (stu + count - 1)->id;
+        (stu + num[n - 1] - 1)->sex = (stu + count - 1)->sex;
+        strcpy((stu + num[n - 1] - 1)->name, (stu + count - 1)->name);
+        strcpy((stu + num[n - 1] - 1)->phone, (stu + count - 1)->phone);
+        count--;
     }
 }
