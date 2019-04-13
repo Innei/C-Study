@@ -4,7 +4,57 @@ int main(int argc, char const *argv[])
 {
     PNODE pHead = NULL;
     pHead = init_record();
-    prt(pHead);
+    if (pHead == NULL)
+    {
+        printf("分配失败\n");
+        exit(1);
+    }
+    while (1)
+    {
+        int n = 0;
+        myprint();
+        scanf("%d", &n);
+        switch (n)
+        {
+        case 1:
+            insert_record(pHead);
+            printf("按任意键继续\n");
+            getchar();
+            // system("pause");
+            break;
+        case 2:
+            prt(pHead);
+            printf("按任意键继续\n");
+            getchar();
+            // system("pause");
+            break;
+
+        case 3:
+            search_record(pHead);
+            printf("按任意键继续\n");
+            getchar();
+            // system("pause");
+            break;
+        case 4:
+            del_record(pHead);
+            printf("按任意键继续\n");
+            getchar();
+            // system("pause");
+            break;
+        case 5:
+            sort_record(pHead);
+            printf("按任意键继续\n");
+            getchar();
+            // system("pause");
+            break;
+        case 0:
+            exit(0);
+
+        default:
+            printf("输入有误!\n");
+            break;
+        }
+    }
     return 0;
 }
 
@@ -54,7 +104,7 @@ sex:
     fclose(fp);
     if (pHead->pNext->pNext)
     {
-        pNew->pNext = pHead->pNext->pNext;
+        pNew->pNext = pHead->pNext;
     }
     else
     {
@@ -83,7 +133,6 @@ PNODE init_record(void)
         while (!feof(fp)) //循环读取每一行，直到文件尾
         {
             fgets(s, 100, fp); //将fp所指向的文件一行内容读到strLine缓冲区
-
             PNODE pNew = (PNODE)malloc(sizeof(NODE));
 
             char *pch;
@@ -117,6 +166,8 @@ PNODE init_record(void)
 
 void prt(PNODE pHead)
 {
+    fflush(stdin);
+    getchar();
     if (count == 0)
     {
         printf("没有记录!\n");
@@ -159,11 +210,11 @@ int *search_record(PNODE pHead)
             if (p->id == b)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
-                p = p->pNext;
-                num[numC] = i + 1;
+                num[numC] = i;
                 numC++;
             }
             i++;
+            p = p->pNext;
         }
 
         break;
@@ -176,11 +227,12 @@ int *search_record(PNODE pHead)
             if (strcmp(p->name, name) == 0)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
-                p = p->pNext;
-                num[numC] = i + 1;
+
+                num[numC] = i;
                 numC++;
             }
             i++;
+            p = p->pNext;
         }
 
         break;
@@ -193,11 +245,12 @@ int *search_record(PNODE pHead)
             if (strcmp(p->phone, phone) == 0)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
-                p = p->pNext;
-                num[numC] = i + 1;
+
+                num[numC] = i;
                 numC++;
             }
             i++;
+            p = p->pNext;
         }
 
         break;
@@ -210,11 +263,12 @@ int *search_record(PNODE pHead)
             if (p->sex == sex)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
-                p = p->pNext;
-                num[numC] = i + 1;
+
+                num[numC] = i;
                 numC++;
             }
             i++;
+            p = p->pNext;
         }
 
         break;
@@ -228,11 +282,12 @@ int *search_record(PNODE pHead)
             if (p->birth.year == birth || p->birth.month == birth || p->birth.day == birth)
             {
                 printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
-                p = p->pNext;
-                num[numC] = i + 1;
+
+                num[numC] = i;
                 numC++;
             }
             i++;
+            p = p->pNext;
         }
 
         break;
@@ -243,6 +298,8 @@ int *search_record(PNODE pHead)
     if (numC == 0)
     {
         printf("无结果\n");
+        free(num);
+        num = NULL;
     }
 
     return num;
@@ -254,6 +311,11 @@ void del_record(PNODE pHead)
     printf("删除记录首先要搜索记录, 然后选择你要删除的记录:\n");
     int *num = search_record(pHead);
 A:
+    if (!num)
+    {
+        return;
+    }
+
     printf("你要删除结果中的哪一项: ");
     scanf("%d", &n);
     if (sizeof(num) / sizeof(int) < n)
@@ -269,12 +331,15 @@ A:
         {
             remove("record.txt");
             fopen("record.txt", "a+");
+            r->pNext = NULL;
+            free(p);
+            p = NULL;
             count--;
         }
         else
         {
-            DeleteLine("record.txt", num[n - 1]);
-            for (int i = 0; i < num[n - 1] - 1; i++) // 每次指向下一个节点, 如果是第一个节点, 直接从头结点指向下一个节点.
+            DeleteLine("record.txt", num[n - 1], count);
+            for (int i = 0; i < num[n - 1] - 2; i++) // 每次指向下一个节点, 如果是第一个节点, 直接从头结点指向下一个节点.
             {
                 p = p->pNext;
                 r = r->pNext;
@@ -296,4 +361,234 @@ A:
             prt(pHead);
         }
     }
+}
+
+void sort_record(PNODE pHead)
+{
+    PNODE p = pHead->pNext;
+a:
+    printf("1）学号排序、2）姓名排序、3）性别排序、4）手机排序、5）生日排序\n");
+    int n = 1, t = 0;
+    char st[30] = "";
+    scanf("%d", &n); // todo
+
+    switch (n)
+    {
+    case 1:
+        for (int i = 0; i < count - 1; i++, p = p->pNext)
+        {
+            PNODE q = p->pNext;
+            for (int j = i + 1; j < count; j++, q = q->pNext)
+            {
+                if (p->id > q->id)
+                {
+                    t = p->id;
+                    p->id = q->id;
+                    q->id = t;
+
+                    t = p->sex;
+                    p->sex = q->sex;
+                    q->sex = t;
+
+                    strcpy(st, p->name);
+                    strcpy(p->name, q->name);
+                    strcpy(q->name, st);
+
+                    strcpy(st, p->phone);
+                    strcpy(p->phone, q->phone);
+                    strcpy(q->phone, st);
+
+                    t = p->birth.day;
+                    p->birth.day = q->birth.day;
+                    q->birth.day = t;
+
+                    t = p->birth.month;
+                    p->birth.month = q->birth.month;
+                    q->birth.month = t;
+
+                    t = p->birth.year;
+                    p->birth.year = q->birth.year;
+                    q->birth.year = t;
+                }
+            }
+        }
+
+        break;
+    case 2:
+        for (int i = 0; i < count - 1; i++, p = p->pNext)
+        {
+            PNODE q = p->pNext;
+            for (int j = i + 1; j < count; j++, q = q->pNext)
+            {
+                if (strcmp(p->name, q->name) > 0)
+                {
+                    t = p->id;
+                    p->id = q->id;
+                    q->id = t;
+
+                    t = p->sex;
+                    p->sex = q->sex;
+                    q->sex = t;
+
+                    strcpy(st, p->name);
+                    strcpy(p->name, q->name);
+                    strcpy(q->name, st);
+
+                    strcpy(st, p->phone);
+                    strcpy(p->phone, q->phone);
+                    strcpy(q->phone, st);
+
+                    t = p->birth.day;
+                    p->birth.day = q->birth.day;
+                    q->birth.day = t;
+
+                    t = p->birth.month;
+                    p->birth.month = q->birth.month;
+                    q->birth.month = t;
+
+                    t = p->birth.year;
+                    p->birth.year = q->birth.year;
+                    q->birth.year = t;
+                }
+            }
+        }
+        break;
+    case 3:
+        for (int i = 0; i < count - 1; i++, p = p->pNext)
+        {
+            PNODE q = p->pNext;
+            for (int j = i + 1; j < count; j++, q = q->pNext)
+            {
+                if (strcmp(p->phone, q->phone) > 0)
+                {
+                    t = p->id;
+                    p->id = q->id;
+                    q->id = t;
+
+                    t = p->sex;
+                    p->sex = q->sex;
+                    q->sex = t;
+
+                    strcpy(st, p->name);
+                    strcpy(p->name, q->name);
+                    strcpy(q->name, st);
+
+                    strcpy(st, p->phone);
+                    strcpy(p->phone, q->phone);
+                    strcpy(q->phone, st);
+
+                    t = p->birth.day;
+                    p->birth.day = q->birth.day;
+                    q->birth.day = t;
+
+                    t = p->birth.month;
+                    p->birth.month = q->birth.month;
+                    q->birth.month = t;
+
+                    t = p->birth.year;
+                    p->birth.year = q->birth.year;
+                    q->birth.year = t;
+                }
+            }
+        }
+        break;
+    case 4:
+        for (int i = 0; i < count - 1; i++, p = p->pNext)
+        {
+            PNODE q = p->pNext;
+            for (int j = i + 1; j < count; j++, q = q->pNext)
+            {
+                if (p->sex > q->sex)
+                {
+                    t = p->id;
+                    p->id = q->id;
+                    q->id = t;
+
+                    t = p->sex;
+                    p->sex = q->sex;
+                    q->sex = t;
+
+                    strcpy(st, p->name);
+                    strcpy(p->name, q->name);
+                    strcpy(q->name, st);
+
+                    strcpy(st, p->phone);
+                    strcpy(p->phone, q->phone);
+                    strcpy(q->phone, st);
+
+                    t = p->birth.day;
+                    p->birth.day = q->birth.day;
+                    q->birth.day = t;
+
+                    t = p->birth.month;
+                    p->birth.month = q->birth.month;
+                    q->birth.month = t;
+
+                    t = p->birth.year;
+                    p->birth.year = q->birth.year;
+                    q->birth.year = t;
+                }
+            }
+        }
+        break;
+    case 5:
+        for (int i = 0; i < count - 1; i++, p = p->pNext)
+        {
+            PNODE q = p->pNext;
+            for (int j = i + 1; j < count; j++, q = q->pNext)
+            {
+                if (p->birth.year > q->birth.year)
+                {
+                    t = p->id;
+                    p->id = q->id;
+                    q->id = t;
+
+                    t = p->sex;
+                    p->sex = q->sex;
+                    q->sex = t;
+
+                    strcpy(st, p->name);
+                    strcpy(p->name, q->name);
+                    strcpy(q->name, st);
+
+                    strcpy(st, p->phone);
+                    strcpy(p->phone, q->phone);
+                    strcpy(q->phone, st);
+
+                    t = p->birth.day;
+                    p->birth.day = q->birth.day;
+                    q->birth.day = t;
+
+                    t = p->birth.month;
+                    p->birth.month = q->birth.month;
+                    q->birth.month = t;
+
+                    t = p->birth.year;
+                    p->birth.year = q->birth.year;
+                    q->birth.year = t;
+                }
+            }
+        }
+        break;
+    default:
+        printf("输入错误\n");
+        break;
+    }
+    prt(pHead);
+}
+
+void myprint()
+{
+    system("clear");
+    printf("      |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
+    printf("      |    请输入选项编号（0-5）:      |\n");
+    printf("      |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
+    printf("      |          1:输入（追加）      |\n");
+    printf("      |          2:显示（打印）      |\n");
+    printf("      |          3:查找             |\n");
+    printf("      |          4:删除             |\n");
+    printf("      |          5:排序             |\n");
+    printf("      |          0:退出             |\n");
+    printf("       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf(" 请输入: ");
 }

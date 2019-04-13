@@ -60,15 +60,7 @@ int main()
             break;
         }
     }
-    // insert_record(stu);
-    // insert_record(stu);
-    // printf("%s", (stu + count)->name);
-    // prt(stu);
-    // while (1)
-    //     search_record(stu);
-    // del_record(stu);
-    sort_record(stu);
-    prt(stu);
+    
     return 0;
 }
 
@@ -324,6 +316,7 @@ A:
             strcpy((stu + num[n - 1] - 1)->name, (stu + count - 1)->name);
             strcpy((stu + num[n - 1] - 1)->phone, (stu + count - 1)->phone);
             count--;
+            prt(stu);
         }
     }
 }

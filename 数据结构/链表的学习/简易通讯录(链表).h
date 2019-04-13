@@ -38,7 +38,7 @@ unsigned long ToUInt(char *str)
     return re;
 }
 
-void DeleteLine(char *filepath, int n)
+void DeleteLine(char *filepath, int n,int line)
 {
     char buf[4096];                  //每读取一行，都将内容放到该数组中
     FILE *fp = fopen(filepath, "r"); //filepath里是原内容
@@ -48,6 +48,7 @@ void DeleteLine(char *filepath, int n)
     while (!feof(fp))
     {
         i++;
+    
         if (i == n)
         {
             fgets(buf, sizeof(buf), fp); //移动文件指针
@@ -69,18 +70,17 @@ void DeleteLine(char *filepath, int n)
 
     //
     fp = fopen(filepath, "a");
-    while (!feof(fpt))
-    {
-        fgets(buf, sizeof(buf), fpt);
-        fprintf(fp, "%s", buf);
-    }
+    for (int i = 1; i < line && !feof(fpt); i++)
+	{
+		fgets(buf, sizeof(buf), fpt);
+		fprintf(fp, "%s", buf);
+	}
 
     fclose(fp);
     fclose(fpt);
 
     //
     remove("temp.txt");
-    //system("rm temp.txt");   //删除文件temp.txt,使用该命令需要包含<stdlib.h>文件
 }
 
 //获得未排序数组中最大的一个元素值
