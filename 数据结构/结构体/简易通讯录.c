@@ -60,7 +60,7 @@ int main()
             break;
         }
     }
-    
+
     return 0;
 }
 
@@ -307,7 +307,7 @@ A:
         }
         else
         {
-            DeleteLine("record.txt", num[n - 1]);
+            DeleteLine("record.txt", num[n - 1], count);
             (stu + num[n - 1] - 1)->birth.day = (stu + count - 1)->birth.day;
             (stu + num[n - 1] - 1)->birth.month = (stu + count - 1)->birth.month;
             (stu + num[n - 1] - 1)->birth.year = (stu + count - 1)->birth.year;
