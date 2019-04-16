@@ -1,6 +1,7 @@
 /**
  * @repos: Simple-Telenote
  * @author: yiny
+ * @infor: 编译环境: macOS 10.14.3 Clang 10.0 (0 error, 0 warning)
  */
 
 #include "简易通讯录.h"
@@ -139,14 +140,14 @@ sex:
     count++;
 }
 
-int *search_record(struct student *stu)
+int *search_record(struct student *stu)  // 返回一个序号数组
 {
     int *num = NULL;
     int numC = 0; // 数组计数
     num = (int *)malloc(sizeof(int) * 10);
     int s = 0;
     int birth;
-    int b = 0;
+    unsigned long int b = 0;
     char name[10];
     char sex = ' ';
     char phone[15];
@@ -158,7 +159,7 @@ int *search_record(struct student *stu)
     {
     case 1:
         printf("输入学号:\n");
-        scanf("%d", &b);
+        scanf("%lu", &b);
         for (int i = 0; i < count; i++)
         {
             if ((stu + i)->id == b)
@@ -329,7 +330,7 @@ a:
     char st[30] = "";
     scanf("%d", &n); // todo
 
-    int *id = (int *)malloc(sizeof(int) * count);
+    unsigned long int *id = (unsigned long int *)malloc(sizeof(unsigned long int) * count);
     char *name[count], *phone[count];
     char *sex = (char *)malloc(sizeof(int) * (count + 1));
     int *birth_year = (int *)malloc(sizeof(int) * count);

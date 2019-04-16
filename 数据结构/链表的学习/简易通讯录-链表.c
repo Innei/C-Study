@@ -190,7 +190,7 @@ int *search_record(PNODE pHead)
     num = (int *)malloc(sizeof(int) * 10);
     int s = 0;
     int birth;
-    int b = 0;
+    unsigned long int b = 0;
     char name[10];
     char sex = ' ';
     char phone[15];
@@ -203,7 +203,7 @@ int *search_record(PNODE pHead)
     {
     case 1:
         printf("输入学号:\n");
-        scanf("%d", &b);
+        scanf("%lu", &b);
         int i = 1;
         while (p)
         {
