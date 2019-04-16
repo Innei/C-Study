@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 using namespace std;
 
@@ -8,6 +9,8 @@ int main(int argc, char const *argv[])
     int n; // 数组
     int i;
     cin >> m;
+    if (m % 2 == 0)
+        exit(-1);
     n = m - 1;
     int 圈 = m / 2; // 计数需要的圈数
     int x, y;       // 定位坐标

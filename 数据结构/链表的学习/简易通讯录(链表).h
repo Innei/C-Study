@@ -4,7 +4,7 @@
 
 typedef struct student
 {
-    int id;
+    unsigned long int id;
 
     struct bir
     {

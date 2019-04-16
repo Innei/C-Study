@@ -62,7 +62,7 @@ void insert_record(PNODE pHead)
 {
     PNODE pNew = (PNODE)malloc(sizeof(NODE));
     printf("学号: ");
-    scanf("%d", &pNew->id);
+    scanf("%lu", &pNew->id);
     printf("姓名: ");
     scanf("%s", pNew->name);
     fflush(stdin); // 清空缓冲区
@@ -92,10 +92,10 @@ sex:
     {
         if (count == 0)
         {
-            fprintf(fp, " %d ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", pNew->id, pNew->name, pNew->sex, pNew->birth.year, pNew->birth.month, pNew->birth.day, pNew->phone);
+            fprintf(fp, " %lu ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", pNew->id, pNew->name, pNew->sex, pNew->birth.year, pNew->birth.month, pNew->birth.day, pNew->phone);
         }
         else
-            fprintf(fp, "\n %d ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", pNew->id, pNew->name, pNew->sex, pNew->birth.year, pNew->birth.month, pNew->birth.day, pNew->phone);
+            fprintf(fp, "\n %lu ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", pNew->id, pNew->name, pNew->sex, pNew->birth.year, pNew->birth.month, pNew->birth.day, pNew->phone);
     }
     else
     {
@@ -177,7 +177,7 @@ void prt(PNODE pHead)
     PNODE p = pHead->pNext;
     while (p)
     {
-        printf("第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
+        printf("第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
         i++;
         p = p->pNext;
     }
@@ -209,7 +209,7 @@ int *search_record(PNODE pHead)
         {
             if (p->id == b)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
                 num[numC] = i;
                 numC++;
             }
@@ -226,7 +226,7 @@ int *search_record(PNODE pHead)
         {
             if (strcmp(p->name, name) == 0)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
 
                 num[numC] = i;
                 numC++;
@@ -244,7 +244,7 @@ int *search_record(PNODE pHead)
         {
             if (strcmp(p->phone, phone) == 0)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
 
                 num[numC] = i;
                 numC++;
@@ -262,7 +262,7 @@ int *search_record(PNODE pHead)
         {
             if (p->sex == sex)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
 
                 num[numC] = i;
                 numC++;
@@ -281,7 +281,7 @@ int *search_record(PNODE pHead)
         {
             if (p->birth.year == birth || p->birth.month == birth || p->birth.day == birth)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i, p->id, p->name, p->sex, p->birth.year, p->birth.month, p->birth.day, p->phone);
 
                 num[numC] = i;
                 numC++;

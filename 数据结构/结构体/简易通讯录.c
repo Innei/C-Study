@@ -90,13 +90,13 @@ void prt(struct student *stu)
 
     for (int i = 0; i < count; i++)
     {
-        printf("第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+        printf("第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
     }
 }
 void insert_record(struct student *stu)
 {
     printf("学号: ");
-    scanf("%d", &(stu + count)->id);
+    scanf("%lu", &(stu + count)->id);
     printf("姓名: ");
     scanf("%s", (stu + count)->name);
     fflush(stdin); // 清空缓冲区
@@ -126,10 +126,10 @@ sex:
     {
         if (count == 0)
         {
-            fprintf(fp, " %d ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", (stu + count)->id, (stu + count)->name, (stu + count)->sex, (stu + count)->birth.year, (stu + count)->birth.month, (stu + count)->birth.day, (stu + count)->phone);
+            fprintf(fp, " %lu ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", (stu + count)->id, (stu + count)->name, (stu + count)->sex, (stu + count)->birth.year, (stu + count)->birth.month, (stu + count)->birth.day, (stu + count)->phone);
         }
         else
-            fprintf(fp, "\n %d ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", (stu + count)->id, (stu + count)->name, (stu + count)->sex, (stu + count)->birth.year, (stu + count)->birth.month, (stu + count)->birth.day, (stu + count)->phone);
+            fprintf(fp, "\n %lu ;  %s ;  %c ;  %d ; %d ; %d ;  %s ;", (stu + count)->id, (stu + count)->name, (stu + count)->sex, (stu + count)->birth.year, (stu + count)->birth.month, (stu + count)->birth.day, (stu + count)->phone);
     }
     else
     {
@@ -163,7 +163,7 @@ int *search_record(struct student *stu)
         {
             if ((stu + i)->id == b)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
                 num[numC] = i + 1;
                 numC++;
             }
@@ -176,7 +176,7 @@ int *search_record(struct student *stu)
         {
             if (strcmp((stu + i)->name, name) == 0)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
                 num[numC] = i + 1;
                 numC++;
             }
@@ -189,7 +189,7 @@ int *search_record(struct student *stu)
         {
             if (strcmp((stu + i)->phone, phone) == 0)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
                 num[numC] = i + 1;
                 numC++;
             }
@@ -202,7 +202,7 @@ int *search_record(struct student *stu)
         {
             if ((stu + i)->sex == sex)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
                 num[numC] = i + 1;
                 numC++;
             }
@@ -216,7 +216,7 @@ int *search_record(struct student *stu)
         {
             if ((stu + i)->birth.year == birth || (stu + i)->birth.month == birth || (stu + i)->birth.day == birth)
             {
-                printf("查找到了第%d条记录: 学号: %d ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
+                printf("查找到了第%d条记录: 学号: %lu ; 姓名: %s ; 性别: %c ; 生日: %d-%d-%d ; 手机: %s ;\n", i + 1, (stu + i)->id, (stu + i)->name, (stu + i)->sex, (stu + i)->birth.year, (stu + i)->birth.month, (stu + i)->birth.day, (stu + i)->phone);
                 num[numC] = i + 1;
                 numC++;
             }
