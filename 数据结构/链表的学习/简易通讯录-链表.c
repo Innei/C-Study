@@ -1,3 +1,9 @@
+/**
+ * @repos: Simple-Telenote (Link-Node)
+ * @author: yiny
+ * @infor: 编译环境: macOS 10.14.3 Clang 10.0 (0 error, 0 warning)
+ */
+
 #include "简易通讯录(链表).h"
 
 int main(int argc, char const *argv[])
@@ -20,11 +26,13 @@ int main(int argc, char const *argv[])
             insert_record(pHead);
             printf("按任意键继续\n");
             getchar();
+            getchar();
             // system("pause");
             break;
         case 2:
             prt(pHead);
             printf("按任意键继续\n");
+            getchar();
             getchar();
             // system("pause");
             break;
@@ -33,17 +41,20 @@ int main(int argc, char const *argv[])
             search_record(pHead);
             printf("按任意键继续\n");
             getchar();
+            getchar();
             // system("pause");
             break;
         case 4:
             del_record(pHead);
             printf("按任意键继续\n");
             getchar();
+            getchar();
             // system("pause");
             break;
         case 5:
             sort_record(pHead);
             printf("按任意键继续\n");
+            getchar();
             getchar();
             // system("pause");
             break;
@@ -78,12 +89,40 @@ sex:
         goto sex;
     }
     printf("生日: ");
-    printf("年: ");
-    scanf("%d", &pNew->birth.year);
-    printf("月: ");
-    scanf("%d", &pNew->birth.month);
-    printf("日: ");
-    scanf("%d", &pNew->birth.day);
+    while (1)
+    {
+        printf("年: ");
+        scanf("%d", &pNew->birth.year);
+        if (pNew->birth.year < 1970 || pNew->birth.year > 2019)
+        {
+            printf("输入有误!\n");
+        }
+        else
+            break;
+    }
+    while (1)
+    {
+        printf("月: ");
+        scanf("%d", &pNew->birth.month);
+        if (pNew->birth.month < 1 || pNew->birth.month > 12)
+        {
+            printf("输入有误!\n");
+        }
+        else
+            break;
+    }
+    while (1)
+    {
+        printf("日: ");
+        scanf("%d", &pNew->birth.day);
+        if (pNew->birth.day < 1 || pNew->birth.day > 31)
+        {
+            printf("输入有误!\n");
+        }
+        else
+            break;
+    }
+
     printf("手机: ");
     scanf("%s", pNew->phone);
 
@@ -102,7 +141,7 @@ sex:
         printf("写文件失败!\n");
     }
     fclose(fp);
-    if (pHead->pNext->pNext)
+    if (pHead->pNext)
     {
         pNew->pNext = pHead->pNext;
     }
@@ -300,6 +339,7 @@ int *search_record(PNODE pHead)
         printf("无结果\n");
         free(num);
         num = NULL;
+        return NULL;
     }
 
     return num;
@@ -311,7 +351,7 @@ void del_record(PNODE pHead)
     printf("删除记录首先要搜索记录, 然后选择你要删除的记录:\n");
     int *num = search_record(pHead);
 A:
-    if (!num)
+    if (num == NULL)
     {
         return;
     }
@@ -330,7 +370,6 @@ A:
         if (count == 1)
         {
             remove("record.txt");
-            fopen("record.txt", "a+");
             r->pNext = NULL;
             free(p);
             p = NULL;
@@ -575,6 +614,7 @@ a:
         break;
     }
     prt(pHead);
+    sort_after_init(pHead);
 }
 
 void myprint()

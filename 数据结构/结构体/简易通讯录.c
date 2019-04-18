@@ -26,11 +26,13 @@ int main()
             insert_record(stu);
             printf("按任意键继续\n");
             getchar();
+            getchar();
             // system("pause");
             break;
         case 2:
             prt(stu);
             printf("按任意键继续\n");
+            getchar();
             getchar();
             // system("pause");
             break;
@@ -39,17 +41,20 @@ int main()
             search_record(stu);
             printf("按任意键继续\n");
             getchar();
+            getchar();
             // system("pause");
             break;
         case 4:
             del_record(stu);
             printf("按任意键继续\n");
             getchar();
+            getchar();
             // system("pause");
             break;
         case 5:
             sort_record(stu);
             printf("按任意键继续\n");
+            getchar();
             getchar();
             // system("pause");
             break;
@@ -113,12 +118,40 @@ sex:
         goto sex;
     }
     printf("生日: ");
-    printf("年: ");
-    scanf("%d", &(stu + count)->birth.year);
-    printf("月: ");
-    scanf("%d", &(stu + count)->birth.month);
-    printf("日: ");
-    scanf("%d", &(stu + count)->birth.day);
+    while (1)
+    {
+        printf("年: ");
+        scanf("%d", &(stu + count)->birth.year);
+        if ((stu + count)->birth.year < 1970 || (stu + count)->birth.year > 2019)
+        {
+            printf("输入有误!\n");
+        }
+        else
+            break;
+    }
+    while (1)
+    {
+        printf("月: ");
+        scanf("%d", &(stu + count)->birth.month);
+        if ((stu + count)->birth.month < 1 || (stu + count)->birth.month > 12)
+        {
+            printf("输入有误!\n");
+        }
+        else
+            break;
+    }
+    while (1)
+    {
+        printf("日: ");
+        scanf("%d", &(stu + count)->birth.day);
+        if ((stu + count)->birth.day < 1 || (stu + count)->birth.day > 31)
+        {
+            printf("输入有误!\n");
+        }
+        else
+            break;
+    }
+
     printf("手机: ");
     scanf("%s", (stu + count)->phone);
 
@@ -140,7 +173,7 @@ sex:
     count++;
 }
 
-int *search_record(struct student *stu)  // 返回一个序号数组
+int *search_record(struct student *stu) // 返回一个序号数组
 {
     int *num = NULL;
     int numC = 0; // 数组计数
@@ -230,6 +263,7 @@ int *search_record(struct student *stu)  // 返回一个序号数组
     if (numC == 0)
     {
         printf("无结果\n");
+        return NULL;
     }
 
     return num;
@@ -290,6 +324,11 @@ void del_record(struct student *stu)
     int n = 0;
     printf("删除记录首先要搜索记录, 然后选择你要删除的记录:\n");
     int *num = search_record(stu);
+    if (num == NULL)
+    {
+        return;
+    }
+
 A:
     printf("你要删除结果中的哪一项: ");
     scanf("%d", &n);
@@ -332,6 +371,7 @@ a:
 
     unsigned long int *id = (unsigned long int *)malloc(sizeof(unsigned long int) * count);
     char *name[count], *phone[count];
+
     char *sex = (char *)malloc(sizeof(int) * (count + 1));
     int *birth_year = (int *)malloc(sizeof(int) * count);
     for (int i = 0; i < count; i++)
@@ -543,4 +583,5 @@ a:
         break;
     }
     prt(stu);
+    sort_after_init(stu, count);
 }
