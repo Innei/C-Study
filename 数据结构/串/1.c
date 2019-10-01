@@ -69,7 +69,7 @@ int StrIndex1(SString s, SString t, int pos)
   int j = 1;
   int len = t[0];
   int flag = 0;
-  while (s[0] != '\0')
+  while (s[i] != '\0' || i <= s[0] + 1)
   {
     if (flag && j == len + 1)
     {
@@ -188,11 +188,56 @@ Status StrConcat(SString t, SString s1, SString s2)
 
 void StrInsert(SString s, int pos, SString t)
 { /*在串s的pos位置处插入子串t*/
-  /*请完成函数*/
+  int i = pos;
+
+  if (t[0] + s[0] > MAX + 1 || pos <= 0 || pos >= MAX + 1)
+  {
+    return;
+  }
+  char temp[MAX + 1];
+  temp[0] = 0;
+  for (int i = pos, j = 1; i <= s[0]; i++, j++)
+  {
+    temp[j] = s[i];
+    temp[0]++;
+  }
+  temp[temp[0] + 1] = '\0';
+  s[pos] = '\0';
+  s[0] = pos - 1;
+  for (int i = pos, j = 1; t[j] != '\0'; i++, j++)
+  {
+    s[i] = t[j];
+    s[0]++;
+  }
+  for (int i = s[0] + 1, j = 1; temp[j] != '\0'; i++, j++)
+  {
+    s[i] = temp[j];
+    s[0]++;
+  }
+  s[s[0] + 1] = '\0';
 }
 void StrDelete(SString s, int pos, int len)
 { /*在串s的pos位置开始删除长度为len的子串*/
-  /*请完成函数*/
+  if (pos <= 0 || pos > s[0] || pos + len >= 1 + s[0])
+  {
+    printf("输入有误\n");
+    return;
+  }
+
+  SString temp;
+  temp[0] = 0;
+  for (int i = pos + len, j = 1; i <= s[0]; i++)
+  {
+    temp[0]++;
+    // printf("%c ", s[i]);
+    temp[j++] = s[i];
+  }
+  temp[temp[0] + 1] = '\0';
+  for (int i = pos, j = 1; temp[j] != '\0'; i++, j++)
+  {
+    s[i] = temp[j];
+  }
+  s[0] = s[0] - len;
 }
 void Replace(SString s, SString t, SString v)
 { /*将串s中所有出现的子串t全替换成子串v*/
@@ -213,10 +258,15 @@ int main(int argc, char const *argv[])
 {
   SString s1, s2;
   StrAssign(s1, "abc");
-  StrAssign(s2, "bc");
+  StrAssign(s2, "xsssssssss");
+  // StrPrint(s1);
+  // printf("%d\n", StrCompare(s1, s2));
+  // int index1 = StrIndex1(s1, s2, 1);
+  // printf("%d\n", index1);
+  // StrInsert(s1, 2, s2);
+  // StrPrint(s1);
+  // StrInsert(s1, 1, s2);
+  StrDelete(s1, 2, 3);
   StrPrint(s1);
-  printf("%d\n", StrCompare(s1, s2));
-  int index1 = StrIndex1(s1, s2, 1);
-  printf("%d\n", index1);
   return 0;
 }
