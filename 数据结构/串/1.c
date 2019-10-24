@@ -263,10 +263,10 @@ int main(int argc, char const *argv[])
   // printf("%d\n", StrCompare(s1, s2));
   // int index1 = StrIndex1(s1, s2, 1);
   // printf("%d\n", index1);
-  // StrInsert(s1, 2, s2);
+  StrInsert(s1, 2, s2);
   // StrPrint(s1);
   // StrInsert(s1, 1, s2);
-  StrDelete(s1, 2, 3);
+  // StrDelete(s1, 1, 2);
   StrPrint(s1);
   return 0;
 }

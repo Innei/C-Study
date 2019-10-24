@@ -3,11 +3,11 @@
     "tasks": [
         {
             "label": "build",
-            "command": "clang++",
+            "command": "clang",
             "type": "shell",
             "args": [
                 "-g","-o","Debug/${fileBasenameNoExtension}.out","${file}",
-                "-std=c++11 ",
+               
                 
             ],
             "presentation": {
