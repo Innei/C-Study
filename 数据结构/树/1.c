@@ -168,71 +168,19 @@ int FindDepth(BiTree T)
 }
 void PrintBiTree(BiTree T, int level)
 { /*打印二叉树*/
+  if (T == NULL)
+  {
+    return;
+  }
+
+  PrintBiTree(T->rchild, level + 1);
   for (int i = 0; i < level; i++)
-    printf("\t");
-  printf("%d", T->data);
-  printf("\n");
-  if (T->lchild)
-  {
-    PrintBiTree(T->lchild, level + 1);
-  }
-  if (T->rchild)
-  {
-    PrintBiTree(T->rchild, level + 1);
-  }
+    printf("    ");
+  printf("%d\n", T->data);
+
+  PrintBiTree(T->lchild, level + 1);
 }
-/* 
-void levelOrderTraversal(BiTree T) {
-  QUEUE Q;
-  struct BiTNode Val;
-  init(&Q);
-  QUEUE Q_level; // 用于存储层级上的元素
-  struct BiTNode Val2;
-  init(&Q_level);
-  en_queue(&Q, *T);
-  List l;
-  pList p = &l;
-  initList(&l);
-  int level = 1; // 定义层级
-  int levelNum = 0;
-  BiTNode zero;
-  zero.data = 0;
-  while (!empty_queue(&Q))
-  {
-    out_queue(&Q, &Val);
-    // printf("%d\t", Val.data);
-    if (levelNum >=level)
-    p->pBase[p->length++] = Val.data;
-    if (Val.lchild != NULL)
-    {
-      en_queue(&Q, *Val.lchild);
-      en_queue(&Q_level, *Val.lchild);
-      levelNum++;
-    }
-    else
-    {
-      p->pBase[p->length++] = 0;
-      en_queue(&Q, zero);
-      levelNum++;
-    }
 
-    if (Val.rchild != NULL)
-    {
-      en_queue(&Q, *Val.rchild);
-      en_queue(&Q_level, *Val.lchild);
-      levelNum++;
-    }
-    else
-    {
-      p->pBase[p->length++] = 0;
-      en_queue(&Q, zero);
-      levelNum++;
-    }
-  }
-  printf("\n");
-
-  printList(p);
-} */
 void PreOrderTraverse(BiTree T)
 { /*递归前序遍历算法*/
   if (T != NULL)
@@ -349,7 +297,6 @@ void main()
 {
   BiTree Bi = CreateBiTree_rc();
   PrintBiTree(Bi, 0);
-  levelOrderTraversal(Bi);
   printf("前中后序遍历:\n");
   PreOrderTraverse(Bi);
   printf("\n");
